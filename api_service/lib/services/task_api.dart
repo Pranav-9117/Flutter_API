@@ -100,4 +100,34 @@ class TaskApi {
     }
    
   }
+
+  Future<Task>updateTask(int id,bool completed)async{
+
+    try{
+      final response = await http.patch(
+        Uri.parse("https://jsonplaceholder.typicode.com/todos/$id"),
+        headers:{
+          "Content-Type":"application/json",
+        },
+        body:jsonEncode({
+          "completed":completed
+        })
+
+      );
+
+      if(response.statusCode==200){
+        final data = jsonDecode(response.body);
+        final task = Task(
+              id: data["id"],
+              title: data["title"],
+              completed: data["completed"]
+            );
+        return task;
+      }else{
+        throw Exception("Update Failed.");
+      }
+    }catch(error){
+      throw Exception("Check your connection");
+    }
+  }
 }

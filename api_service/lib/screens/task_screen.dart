@@ -91,6 +91,25 @@ class _TaskScreenState extends State<TaskScreen>{
         }
 
     }
+
+    Future<void>_toggleTask(Task task)async{
+      bool curStatus = task.completed;
+      int curId = task.id;
+
+      try{
+        final updatedTask = await _taskApi.updateTask(curId, !curStatus);
+        setState(() {
+          final index = _tasks.indexWhere(
+            (item) => item.id == task.id,
+          );
+
+          _tasks[index] = updatedTask;
+        });
+      }catch(error){
+        
+      }
+
+    }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,7 +138,13 @@ class _TaskScreenState extends State<TaskScreen>{
           : Expanded(
               child: ListView(
                 children: _tasks
-                    .map((task) => Text(task.title))
+                    .map((task) => CheckboxListTile(
+                      value: task.completed, 
+                      onChanged: (_){
+                      _toggleTask(task);
+                    },
+                    title: Text(task.title)
+                  ))
                     .toList(),
               ),
             )

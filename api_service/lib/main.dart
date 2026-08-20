@@ -1,9 +1,9 @@
 import 'package:api_service/screens/task_screen.dart';
 import 'package:flutter/material.dart';
 
-/* import 'models/task.dart';
-import 'services/task_api.dart'; */
-void main() {
+/*  import 'models/task.dart';
+import 'services/task_api.dart';  */
+void main() async{
   /* final task = Task(
     id: 1,
     title: "Learn Flutter",
@@ -19,7 +19,13 @@ void main() {
     print(task.id);
 
   } */
+  /* final api = TaskApi();
 
+  final task = await api.createTask("Learn Flutter");
+
+  print(task.id);
+  print(task.title);
+  print(task.completed); */
   runApp(const MyApp());
 }
 

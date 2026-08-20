@@ -67,4 +67,37 @@ class TaskApi {
   return tasks; */
 
   }
+  Future<Task>createTask(String title)async{
+
+    try{
+      final response = await http.post(
+        Uri.parse("https://jsonplaceholder.typicode.com/todos"),
+        headers: {
+           "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "title": title,
+          "completed": false,
+        }),
+      );
+
+      if(response.statusCode==201){
+
+        final data = jsonDecode(response.body);
+        final task = Task(
+              id: data["id"],
+              title: data["title"],
+              completed: data["completed"]
+            );
+        return task;
+
+      }else{
+        throw Exception("Failed to create task");
+      }
+    }
+    catch(error){
+      throw Exception("Cant connect");
+    }
+   
+  }
 }
